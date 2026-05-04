@@ -1,0 +1,57 @@
+    ┌──────────────────────┐                                                                             
+    │User messages bot with│                                                                             
+    │description of task   │                                                                             
+    └───────────┬──────────┘                                                                             
+       ┌────────▽────────┐                                                                               
+       │Bot reads message│                                                                               
+       └────────┬────────┘                                                                               
+                │                                                                                        
+                │◁────────────────╮                                                                      
+┌───────────────┴──────────────┐  │                                                                      
+│Bot replies to user's message,│  │                                                                      
+│requesting information        │  │                                                                      
+└───────────────┬──────────────┘  │                                                                      
+     ___________▽____________     │                                                                      
+    ╱                        ╲    │                                                                      
+   ╱ Bot finds word or phrase ╲___│                                                                      
+   ╲ it does not understand   ╱yes                                                                       
+    ╲________________________╱                                                                           
+                │no                                                                                      
+     ┌──────────▽─────────┐                                                                              
+     │Bot reads task and  │                                                                              
+     │analyses core skills│                                                                              
+     └──────────┬─────────┘                                                                              
+                │                                                                                        
+                │◁───────────────────╮                                                                   
+┌───────────────┴──────────────┐     │                                                                   
+│Bot replies to user's message,│     │                                                                   
+│requesting information        │     │                                                                   
+└───────────────┬──────────────┘     │                                                                   
+  ______________▽_______________     │                                                                   
+ ╱                              ╲    │                                                                   
+╱ Bot requires user confirmation ╲___│                                                                   
+╲ that skills are accurate       ╱yes                                                                    
+ ╲______________________________╱                                                                        
+                │no                                                                                      
+ ┌──────────────▽─────────────┐                                                                          
+ │Bot compares identified     │                                                                          
+ │skills against target skills│                                                                          
+ └──────────────┬─────────────┘                                                                          
+        ________▽________                                                 ┌─────────────────────────────┐
+       ╱                 ╲                                                │Bot messages user to flesh   │
+      ╱ Target skills are ╲_______________________________________________│out answer, add more details,│
+      ╲ found in analysis ╱yes                                            │and prepare STAR answers     │
+       ╲_________________╱                                                └──────────────┬──────────────┘
+                │no                                                                      │               
+     ___________▽___________     ┌───────────────────────────────────────┐               │               
+    ╱                       ╲    │Bot messages user prompting            │               │               
+   ╱ Non-target skill occurs ╲___│investigation of non-target skill, with│               │               
+   ╲ more than 5 times       ╱yes│potential of adjusting target skills   │               │               
+    ╲_______________________╱    └───────────────────┬───────────────────┘               │               
+                │no                                  │                                   │               
+                └───────────────────┬────────────────┴───────────────────────────────────┘               
+                            ┌───────▽───────┐                                                            
+                            │Task and skills│                                                            
+                            │are added to db│                                                            
+                            └───────────────┘                                                            
+
