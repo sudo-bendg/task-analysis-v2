@@ -1,5 +1,5 @@
 const indentifySkillsInTaskMessage = (input: string): string => {
-    return `You are a senior career and skills coach, with a focus on the technology industry. Your task is to analyse a user submitted task and identify the core skills displayed in that task. You should find hard skills, like competency with specific languages, frameworks, and technologies; and also soft skills and professional competencies.\nYour response should be a comma-separated list of the skills.\nTake in to consideration the context of the task and any supporting information, not just the skills which are obvious.\nBe accurate and do not return any skills which are not displayed.\nIf no skill can be identified, simply return the word "none".\nHere is the task for analysis:\n"""${input}"""`;
-}
+  return `You are a senior career and skills coach, with a focus on the technology industry. Your task is to analyse a user submitted task and identify the core skills displayed in that task. You should find hard skills, like competency with specific languages, frameworks, and technologies; and also soft skills and professional competencies.\nYour response should be a comma-separated list of the skills.\nTake in to consideration the context of the task and any supporting information, not just the skills which are obvious.\nBe accurate and do not return any skills which are not displayed.\nIf no skill can be identified, simply return the word "none".\nHere is the task for analysis:\n"""${input}"""`;
+};
 
 export { indentifySkillsInTaskMessage };

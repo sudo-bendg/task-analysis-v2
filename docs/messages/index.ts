@@ -5,9 +5,9 @@ import { indentifySkillsInTaskMessage } from "./identifySkillsInTask";
 import { promptUserToRethinkTargetSkillsMessage } from "./promptUserToRethinkTargetSkills";
 
 export {
-    draftSTARAnswersMessage,
-    findMisunderstoodPhrasesMessage,
-    identifyRelevantSupertasksMessage,
-    indentifySkillsInTaskMessage,
-    promptUserToRethinkTargetSkillsMessage
-}
+  draftSTARAnswersMessage,
+  findMisunderstoodPhrasesMessage,
+  identifyRelevantSupertasksMessage,
+  indentifySkillsInTaskMessage,
+  promptUserToRethinkTargetSkillsMessage,
+};
