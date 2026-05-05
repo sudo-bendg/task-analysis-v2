@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Bot } from "./resources/bot";
+import { Bot } from "./classes/bot";
 
 dotenv.config();
 
