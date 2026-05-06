@@ -2,8 +2,10 @@ import { TelegramBot } from "typescript-telegram-bot-api";
 
 class Bot {
   bot: TelegramBot;
+  type: string;
 
-  constructor(TOKEN: string) {
+  constructor(TOKEN: string, type: string = 'genericBot') {
+    this.type = type
     this.bot = new TelegramBot({ botToken: TOKEN });
     this.bot.startPolling();
 

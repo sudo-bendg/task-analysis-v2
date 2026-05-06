@@ -7,7 +7,7 @@ const isTestEnvironment = ENVIRONMENT && ENVIRONMENT === "test" ? true : false;
 
 const taskSchema = new Schema({
   taskDescription: { type: String, requried: true },
-  timeStamp: { type: Number },
+  timeStamp: { type: Number, default: Date.now() },
   testEnvironment: { type: Boolean, default: isTestEnvironment },
 });
 
