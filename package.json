@@ -1,12 +1,13 @@
 {
   "name": "task-analysis-v2",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
+    "start": "node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "dotenv": "^17.4.2",
+    "mongoose": "^9.6.1",
     "typescript-telegram-bot-api": "^0.14.0"
   }
 }
