@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { Bot, TaskRecieverBot, ClarificationRequestorBot } from "./bots";
 import { getConnection } from "./db/ connection";
 import { TaskModel } from "./db/taskModel";
-import { identifySkillsInTask } from './ollamaConnector/index'
+import { identifySkillsInTask, identifyRelevantSupertasks } from './ollamaConnector/index'
 import { AnalysisStages } from './constants'
 import { EventEmitter } from 'events';
 
@@ -14,8 +14,6 @@ const TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR = process.env.TELEGRAM_TOKEN_CLARIF
 const TOKEN = process.env.TELEGRAM_TOKEN || "";
 
 const globalEventListener = new EventEmitter();
-
-
 
 (async () => {
   await getConnection(DB_CONNECTION_STRING);
@@ -32,10 +30,17 @@ const globalEventListener = new EventEmitter();
       if (task.status === AnalysisStages.REQUIRES_CLARIFICATION) {
         clarificationRequestorBot.requestClarification(task.taskDescription || '', task.fromUser || -1)
       } else {
+        console.log("Starting identifySkillsInTask")
         const skillsString: string = await identifySkillsInTask(task.taskDescription || '');
+        console.log("Finishing identifySkillsInTask")
         const skillsArray = skillsString.split(',')
         skillsArray.map(skill => skill.trim());
-        await TaskModel.updateOne({_id: task._id}, {skills: skillsArray, status: AnalysisStages.LOGGED})
+        console.log("Starting identifyRelevantSupertasks")
+        const superSkillsString: string = await identifyRelevantSupertasks(skillsArray, task.taskDescription || '')
+        console.log("Finishing identifyRelevantSupertasks")
+        const superSkillsArray = superSkillsString.split(',')
+        superSkillsArray.map(skill => skill.trim());
+        await TaskModel.updateOne({_id: task._id}, {skills: skillsArray.concat(superSkillsArray), status: AnalysisStages.INITIAL_ANALYSIS_COMPLETE})
       }
     }
   });
