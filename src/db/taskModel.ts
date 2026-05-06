@@ -9,6 +9,9 @@ const taskSchema = new Schema({
   taskDescription: { type: String, requried: true },
   timeStamp: { type: Number, default: Date.now() },
   testEnvironment: { type: Boolean, default: isTestEnvironment },
+  status: { type: String },
+  fromUser: { type: Number },
+  skills: [{type: String}]
 });
 
 const TaskModel = model("task", taskSchema);
