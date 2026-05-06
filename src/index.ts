@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Bot, TaskRecieverBot } from "./classes/bots";
+import { Bot, TaskRecieverBot } from "./bots";
 import { getConnection } from "./db/ connection";
 import { TaskModel } from "./db/taskModel";
 
