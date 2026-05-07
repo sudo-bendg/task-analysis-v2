@@ -2,6 +2,10 @@ import dotenv from "dotenv";
 import { TaskRecieverBot } from "./bots";
 import { getConnection } from "./db/ connection";
 import { EventEmitter } from 'events';
+import { createLogger, transports } from 'winston';
+
+const logger = createLogger();
+logger.info("Task analysis pipeline is starting up")
 
 dotenv.config();
 
@@ -13,10 +17,15 @@ const TOKEN = process.env.TELEGRAM_TOKEN || "";
 const globalEventListener = new EventEmitter();
 
 (async () => {
-  // initialise db connection
-  await getConnection(DB_CONNECTION_STRING);
+  try{
+    await getConnection(DB_CONNECTION_STRING);
+    logger.info("Database is connected")
 
-  // initialise bots
-  const taskRecieverBot = new TaskRecieverBot(TELEGRAM_TOKEN_TASK_RECIEVER, globalEventListener);
-
+    // initialise bots
+    logger.info("Initialising taskRecieverBot")
+    const taskRecieverBot = new TaskRecieverBot(TELEGRAM_TOKEN_TASK_RECIEVER, globalEventListener);
+  }
+  catch (err: any) {
+    logger.error(`An error occurred`, err);
+  }
 })();

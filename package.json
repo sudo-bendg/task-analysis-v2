@@ -35,6 +35,7 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "mongoose": "^9.6.1",
-    "typescript-telegram-bot-api": "^0.14.0"
+    "typescript-telegram-bot-api": "^0.14.0",
+    "winston": "^3.19.0"
   }
 }
