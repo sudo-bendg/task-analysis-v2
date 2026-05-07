@@ -10,11 +10,12 @@ const clarificationRequestorBot = new ClarificationRequestorBot(TELEGRAM_TOKEN_C
 const globalEventListener = new EventEmitter();
 
 globalEventListener.on("Task Recieved", async () => {
-  const newTasks = await TaskModel.find({
-    $or: [{ 'status': AnalysisStages.NEW }, { 'status': AnalysisStages.REQUIRES_CLARIFICATION }]
-  }).exec();
+  try {
+    const newTasks = await TaskModel.find({
+      $or: [{ 'status': AnalysisStages.NEW }, { 'status': AnalysisStages.REQUIRES_CLARIFICATION }]
+    }).exec();
 
-  for (const task of newTasks) {
+    for (const task of newTasks) {
     if (task.status === AnalysisStages.REQUIRES_CLARIFICATION) {
 
       clarificationRequestorBot.requestClarification(task.taskDescription || '', task.fromUser || -1)
@@ -31,5 +32,8 @@ globalEventListener.on("Task Recieved", async () => {
 
       await TaskModel.updateOne({ _id: task._id }, { skills: skillsArray.concat(superSkillsArray), status: AnalysisStages.INITIAL_ANALYSIS_COMPLETE })
     }
+  }
+  } catch (err) {
+    throw new Error(`Error thrown in globalEventListener. Err: ${err}`);
   }
 });

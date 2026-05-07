@@ -14,10 +14,10 @@ const TELEGRAM_TOKEN_TASK_RECIEVER = process.env.TELEGRAM_TOKEN_TASK_RECIEVER ||
 
 const TOKEN = process.env.TELEGRAM_TOKEN || "";
 
-const globalEventListener = new EventEmitter();
-
 (async () => {
   try{
+    const globalEventListener = new EventEmitter();
+
     await getConnection(DB_CONNECTION_STRING);
     logger.info("Database is connected")
 
