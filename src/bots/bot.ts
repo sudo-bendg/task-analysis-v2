@@ -1,4 +1,5 @@
 import { TelegramBot } from "typescript-telegram-bot-api";
+import { logger } from "../logger";
 
 class Bot {
   bot: TelegramBot;
@@ -10,7 +11,7 @@ class Bot {
     this.bot.startPolling();
 
     this.bot.on("message", (message) => {
-      console.log("Received message:", message.text);
+      logger.info("Received message:", message.text);
     });
   }
 

@@ -4,19 +4,19 @@ import { TaskModel } from '../db/taskModel';
 import { findMisunderstoodPhrases } from '../ollamaConnector';
 import { AnalysisStages } from '../constants'
 import { EventEmitter } from 'events';
+import { logger } from '../logger';
 
 class TaskRecieverBot extends Bot {
     constructor(TOKEN: string, globalEventListener: EventEmitter) {
         super(TOKEN, 'TaskRecieverBot');
 
         this.bot.on("message", async (message: Message) => {
-            console.log(message)
             let requriesClarification = false;
             if (message.text){
-                console.log("Received message:", message.text);
-                console.log("starting analysis")
+                logger.info("Received message:", message.text);
+                logger.info("starting analysis of messsage")
                 const misunderstoodPhrasesResponse: string = await findMisunderstoodPhrases(message.text);
-                console.log("finished analysis")
+                logger.info("finished analysis")
                 if (misunderstoodPhrasesResponse.toLowerCase() !== 'none') {
                     requriesClarification = true;
                 }

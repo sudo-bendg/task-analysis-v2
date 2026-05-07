@@ -2,9 +2,8 @@ import dotenv from "dotenv";
 import { TaskRecieverBot } from "./bots";
 import { getConnection } from "./db/ connection";
 import { EventEmitter } from 'events';
-import { createLogger, transports } from 'winston';
+import { logger } from "./logger";
 
-const logger = createLogger();
 logger.info("Task analysis pipeline is starting up")
 
 dotenv.config();
