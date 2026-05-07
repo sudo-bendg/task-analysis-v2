@@ -10,26 +10,26 @@ const clarificationRequestorBot = new ClarificationRequestorBot(TELEGRAM_TOKEN_C
 const globalEventListener = new EventEmitter();
 
 globalEventListener.on("Task Recieved", async () => {
-    const newTasks = await TaskModel.find({
-      $or: [{'status': AnalysisStages.NEW}, {'status': AnalysisStages.REQUIRES_CLARIFICATION}]
-    }).exec();
-    
-    for (const task of newTasks) {
-      if (task.status === AnalysisStages.REQUIRES_CLARIFICATION) {
+  const newTasks = await TaskModel.find({
+    $or: [{ 'status': AnalysisStages.NEW }, { 'status': AnalysisStages.REQUIRES_CLARIFICATION }]
+  }).exec();
 
-        clarificationRequestorBot.requestClarification(task.taskDescription || '', task.fromUser || -1)
+  for (const task of newTasks) {
+    if (task.status === AnalysisStages.REQUIRES_CLARIFICATION) {
 
-      } else {
+      clarificationRequestorBot.requestClarification(task.taskDescription || '', task.fromUser || -1)
 
-        const skillsString: string = await identifySkillsInTask(task.taskDescription || '');
-        const skillsArray = skillsString.split(',')
-        skillsArray.map(skill => skill.trim());
+    } else {
 
-        const superSkillsString: string = await identifyRelevantSupertasks(skillsArray, task.taskDescription || '')
-        const superSkillsArray = superSkillsString.split(',')
-        superSkillsArray.map(skill => skill.trim());
+      const skillsString: string = await identifySkillsInTask(task.taskDescription || '');
+      const skillsArray = skillsString.split(',')
+      skillsArray.map(skill => skill.trim());
 
-        await TaskModel.updateOne({_id: task._id}, {skills: skillsArray.concat(superSkillsArray), status: AnalysisStages.INITIAL_ANALYSIS_COMPLETE})
-      }
+      const superSkillsString: string = await identifyRelevantSupertasks(skillsArray, task.taskDescription || '')
+      const superSkillsArray = superSkillsString.split(',')
+      superSkillsArray.map(skill => skill.trim());
+
+      await TaskModel.updateOne({ _id: task._id }, { skills: skillsArray.concat(superSkillsArray), status: AnalysisStages.INITIAL_ANALYSIS_COMPLETE })
     }
-  });
+  }
+});
