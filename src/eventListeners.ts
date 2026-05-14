@@ -2,14 +2,14 @@ import { EventEmitter } from 'events';
 import { TaskModel } from './db/taskModel';
 import { AnalysisStages } from './constants';
 import { identifyRelevantSupertasks, identifySkillsInTask } from './ollamaConnector';
-import { ClarificationRequestorBot } from "./bots";
+import { ClarificationRequestorBot } from "./bots/clarificationRequestorBot";
 
 const TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR = process.env.TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR || "";
 const clarificationRequestorBot = new ClarificationRequestorBot(TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR)
 
 const globalEventListener = new EventEmitter();
 
-globalEventListener.on("Task Recieved", async () => {
+const handleNewTask = async () => {
   try {
     const newTasks = await TaskModel.find({
       $or: [{ 'status': AnalysisStages.NEW }, { 'status': AnalysisStages.REQUIRES_CLARIFICATION }]
@@ -36,4 +36,6 @@ globalEventListener.on("Task Recieved", async () => {
   } catch (err) {
     throw new Error(`Error thrown in globalEventListener. Err: ${err}`);
   }
-});
+};
+
+export { handleNewTask };

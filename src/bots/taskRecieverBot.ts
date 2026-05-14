@@ -5,6 +5,7 @@ import { findMisunderstoodPhrases } from '../ollamaConnector';
 import { AnalysisStages } from '../constants'
 import { EventEmitter } from 'events';
 import { logger } from '../logger';
+import { handleNewTask } from '../eventListeners';
 
 class TaskRecieverBot extends Bot {
     constructor(TOKEN: string, globalEventListener: EventEmitter) {
@@ -26,7 +27,7 @@ class TaskRecieverBot extends Bot {
                     status: statusVal,
                     fromUser: message.from?.id
                 })         
-                globalEventListener.emit("Task Recieved");       
+                await handleNewTask(); 
             }
         });
     }
