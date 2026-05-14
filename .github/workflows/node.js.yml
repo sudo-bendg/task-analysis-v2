@@ -53,3 +53,12 @@ jobs:
         with:
           push: true
           tags: benjamingodfrey/task-analysis-v2:latest
+  
+  - 
+    name: Push Docker Image via SSH
+    uses: open-fringecore/docker-ssh-push@v0.1.2-beta
+    with:
+        images: |
+            benjamingodfrey/task-analysis-v2:latest
+        ssh-host: ${{ secrets.SSH_HOST }}
+        ssh-user: ${{ secrets.SSH_USER }}
