@@ -47,6 +47,7 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+        platforms: linux/amd64,linux/arm64
       -
         name: Build and push
         uses: docker/build-push-action@v7
@@ -68,4 +69,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: |
+            docker image rm benjamingodfrey/task-analysis-v2
+            docker run benjamingodfrey/task-analysis-v2 -e TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' -e TELEGRAM_TOKEN_TASK_RECIEVER='${{ secrets.TELEGRAM_TOKEN_TASK_RECIEVER }}' -e TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR='${{ secrets.TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR }}' -e TELEGRAM_TOKEN_FEEDBACK_BOT='${{ secrets.TELEGRAM_TOKEN_FEEDBACK_BOT }}' -e DB_CONNECTION_STRING='${{ secrets.DB_CONNECTION_STRING }}' -e OLLAMA_URL='${{ secrets.OLLAMA_URL }}' -e OLLAMA_MODEL='${{ secretsOLLAMA_MODEL }}' -e OLLAMA_MODEL_SMALLER='${{ secrets.OLLAMA_MODEL_SMALLER }}' -e ENVIRONMENT='${{ secrets.ENVIRONMENT }}'
