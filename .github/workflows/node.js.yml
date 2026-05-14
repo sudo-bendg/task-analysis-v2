@@ -61,11 +61,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - 
-        name: Push Docker Image via SSH
-        uses: open-fringecore/docker-ssh-push@v0.1.2-beta
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
         with:
-            images: |
-                benjamingodfrey/task-analysis-v2:latest
-            ssh-host: ${{ secrets.SSH_HOST }}
-            ssh-user: ${{ secrets.SSH_USER }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
