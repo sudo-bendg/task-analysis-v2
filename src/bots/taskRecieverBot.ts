@@ -14,7 +14,6 @@ class TaskRecieverBot extends Bot {
         this.bot.on("message", async (message: Message) => {
             let requriesClarification = false;
             if (message.text){
-                logger.info("Received message:", message.text);
                 logger.info("starting analysis of messsage")
                 const misunderstoodPhrasesResponse: string = await findMisunderstoodPhrases(message.text);
                 logger.info("finished analysis")

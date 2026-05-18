@@ -25,6 +25,6 @@ const TOKEN = process.env.TELEGRAM_TOKEN || "";
     const taskRecieverBot = new TaskRecieverBot(TELEGRAM_TOKEN_TASK_RECIEVER, globalEventListener);
   }
   catch (err: any) {
-    logger.error(`An error occurred`, err);
+    logger.error(`An error occurred: ${err}`);
   }
 })();
