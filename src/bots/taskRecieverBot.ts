@@ -3,32 +3,36 @@ import { Message } from 'typescript-telegram-bot-api';
 import { TaskModel } from '../db/taskModel';
 import { findMisunderstoodPhrases } from '../ollamaConnector';
 import { AnalysisStages } from '../constants'
-import { EventEmitter } from 'events';
 import { logger } from '../logger';
 import { handleNewTask } from '../eventListeners';
 
 class TaskRecieverBot extends Bot {
-    constructor(TOKEN: string, globalEventListener: EventEmitter) {
+    constructor(TOKEN: string) {
         super(TOKEN, 'TaskRecieverBot');
 
         this.bot.on("message", async (message: Message) => {
-            let requriesClarification = false;
             if (message.text){
-                logger.info("Received message:", message.text);
-                logger.info("starting analysis of messsage")
-                const misunderstoodPhrasesResponse: string = await findMisunderstoodPhrases(message.text);
-                logger.info("finished analysis")
-                if (misunderstoodPhrasesResponse.toLowerCase() !== 'none') {
-                    requriesClarification = true;
-                }
-                const statusVal = requriesClarification ? AnalysisStages.REQUIRES_CLARIFICATION : AnalysisStages.NEW;
-                TaskModel.create({
-                    taskDescription: message.text,
-                    status: statusVal,
-                    fromUser: message.from?.id
-                })         
+                const statusVal = await this.requiresClarification(message) ?
+                    AnalysisStages.REQUIRES_CLARIFICATION :
+                    AnalysisStages.NEW;
+                await this.createTask(message, statusVal);
                 await handleNewTask(); 
             }
+        });
+    }
+
+    async requiresClarification (message: Message): Promise<boolean>{
+        logger.info(`Starting requiresClarification analysis`);
+        const misunderstoodPhrasesResponse: string = await findMisunderstoodPhrases(message.text || "");
+        logger.info(`Ending requiresClarification analysis`);
+        return misunderstoodPhrasesResponse.toLowerCase() !== 'none';
+    }
+
+    async createTask (message: Message, statusVal: AnalysisStages): Promise<void> {
+        TaskModel.create({
+            taskDescription: message.text,
+            status: statusVal,
+            fromUser: message.from?.id
         });
     }
 }

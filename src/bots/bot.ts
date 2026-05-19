@@ -11,7 +11,7 @@ class Bot {
     this.bot.startPolling();
 
     this.bot.on("message", (message) => {
-      logger.info("Received message:", message.text);
+      logger.info(`Recieved message: ${message.text}`);
     });
   }
 
