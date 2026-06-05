@@ -1,6 +1,6 @@
 {
   "name": "task-analysis-v2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "node ./dist/index.js",
-    "build": "npx tsc ./src/tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build": "npx tsc -p src/tsconfig.json",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,14 @@
   "homepage": "https://github.com/sudo-bendg/task-analysis-v2#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/jest": "^30.0.0",
     "@types/node-telegram-bot-api": "^0.64.14",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.4.2",
     "prettier": "^3.8.3",
+    "ts-jest": "^29.4.11",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.2"
   },
