@@ -7,7 +7,7 @@ on:
 jobs:
   test:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
 
     needs: test
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       -
@@ -46,24 +46,3 @@ jobs:
           push: true
           tags: benjamingodfrey/task-analysis-v2:latest,
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-
-  pushImage:
-
-    needs: buildImage
-
-    runs-on: self-hosted
-
-    steps:
-      - name: Execute remote SSH commands using password
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: |
-            docker stop task-analysis-v2 || true
-            docker rm task-analysis-v2 || true
-            docker image rm --force benjamingodfrey/task-analysis-v2
-            docker pull benjamingodfrey/task-analysis-v2:latest
-            docker run -d --name task-analysis-v2 -e TELEGRAM_TOKEN='${{ secrets.TELEGRAM_TOKEN }}' -e TELEGRAM_TOKEN_TASK_RECIEVER='${{ secrets.TELEGRAM_TOKEN_TASK_RECIEVER }}' -e TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR='${{ secrets.TELEGRAM_TOKEN_CLARIFICATION_REQUESTOR }}' -e TELEGRAM_TOKEN_FEEDBACK_BOT='${{ secrets.TELEGRAM_TOKEN_FEEDBACK_BOT }}' -e DB_CONNECTION_STRING='${{ secrets.DB_CONNECTION_STRING }}' -e OLLAMA_URL='${{ secrets.OLLAMA_URL }}' -e OLLAMA_MODEL='${{ secrets.OLLAMA_MODEL }}' -e OLLAMA_MODEL_SMALLER='${{ secrets.OLLAMA_MODEL_SMALLER }}' -e ENVIRONMENT='${{ secrets.ENVIRONMENT }}' benjamingodfrey/task-analysis-v2
